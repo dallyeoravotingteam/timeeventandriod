@@ -190,7 +190,7 @@
       let eventFound = false;
       for (const event of eventWindows) {
         if (kstTime >= event.start && kstTime < event.end) {
-          activeEvent.innerHTML = `<img class='alarm' Alarm_Clock.gif alt='alarm'/>${event.name}`;
+          activeEvent.innerHTML = `<img class='alarm' src='https://i.gifer.com/ZZ5H.gif' alt='alarm'/>${event.name}`;
           eventFound = true;
          if (!notifiedToday.has(today + event.start)) {
   notifiedToday.add(today + event.start);
