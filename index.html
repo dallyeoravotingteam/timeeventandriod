@@ -192,15 +192,22 @@
         if (kstTime >= event.start && kstTime < event.end) {
           activeEvent.innerHTML = `<img class='alarm' src='https://i.gifer.com/ZZ5H.gif' alt='alarm'/>${event.name}`;
           eventFound = true;
-          if (!notifiedToday.has(today + event.start)) {
-            notifiedToday.add(today + event.start);
-            if (notificationEnabled) {
-              new Notification("⏰ Time Event Reminder (KST)", {
-                body: `${event.name}`,
-                icon: 'https://cdn-icons-png.flaticon.com/512/1827/1827392.png'
-              });
-            }
-          }
+         if (!notifiedToday.has(today + event.start)) {
+  notifiedToday.add(today + event.start);
+  if (notificationEnabled && 'serviceWorker' in navigator) {
+    navigator.serviceWorker.getRegistration().then(function(reg) {
+      if (reg) {
+        reg.showNotification("⏰ Time Event Reminder (KST)", {
+          body: `${event.name}`,
+          icon: 'https://cdn-icons-png.flaticon.com/512/1827/1827392.png',
+          vibrate: [200, 100, 200],
+          tag: 'te-reminder',
+          requireInteraction: false
+        });
+      }
+    });
+  }
+}
           break;
         }
       }
